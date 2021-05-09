@@ -30,3 +30,8 @@ spec:
       containers:
       - image: {{ .Values.container.image }}
         name: {{ .Values.container.name }}
+        resources:         # once here
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m 

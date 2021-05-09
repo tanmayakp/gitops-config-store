@@ -6,10 +6,10 @@ service:
 container:
     name: sample-web-app
 blueContainer:
-    image: tanmayakp/sample-web-app:main-a75a46e
+    image: tanmayakp/sample-web-app:main-v3
     state: enabled
 greenContainer:
-    image: tanmayakp/sample-web-app:main-v4
+    image: tanmayakp/sample-web-app:main-v2
     state: enabled
     
 autoPromote: false

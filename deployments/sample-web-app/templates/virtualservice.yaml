@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Values.container.name }}
+spec:
+  gateways:
+  - {{ .Values.gateway }}
+  hosts:
+  - {{ .Values.inactiveHost }}
+  - {{ .Values.activeHost }}
+  http:
+  - match:
+    - headers:
+        host:
+          exact: {{ .Values.inactiveHost }}
+    route:
+    - destination:
+        host: {{ .Values.container.name }}-{{ .Values.inactive }}
+        
+  - route:
+      - destination:
+          host: {{ .Values.container.name }}-green
+        {{ if eq .Values.inactive "green" }}
+        weight: 0
+        {{ else }}
+        weight: 100
+        {{ end }}
+      - destination:
+          host: {{ .Values.container.name }}-blue
+        {{ if eq .Values.inactive "blue" }}
+        weight: 0
+        {{ else }}
+        weight: 100
+        {{ end }}

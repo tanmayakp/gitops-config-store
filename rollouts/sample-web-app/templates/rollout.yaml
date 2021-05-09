@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  labels:
+    app: {{ .Values.container.name }}
+  name: {{ .Values.container.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.container.name }}
+  strategy:
+    blueGreen:
+      activeService: {{ .Values.container.name }}
+      previewService: {{ .Values.container.name }}-preview
+      autoPromotionEnabled: {{ .Values.autoPromote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.container.name }}
+    spec:
+      containers:
+      - image: {{ .Values.container.image }}
+        name: {{ .Values.container.name }}

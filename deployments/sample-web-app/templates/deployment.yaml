@@ -1,0 +1,58 @@
+{{ if and (eq .Values.inactive "green") (eq .Values.blueContainer.state "disabled") }}
+{{ fail "Blue is Active. Cannot be disabled"}}
+{{ else if and (eq .Values.inactive "blue") (eq .Values.greenContainer.state "disabled") }}
+{{ fail "Green is Active. Cannot be disabled"}}
+{{ else if and (eq .Values.greenContainer.state "disabled") (eq .Values.blueContainer.state "disabled") }}
+{{ fail "Both Blue and Green cannot be disabled." }}
+{{ end }}
+
+{{ if eq .Values.blueContainer.state "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.container.name }}-blue
+    group: blue
+  name: {{ .Values.container.name }}-blue
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.container.name }}-blue
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.container.name }}-blue
+        group: blue
+    spec:
+      containers:
+      - image: {{ .Values.blueContainer.image }}
+        name: {{ .Values.container.name }}-blue
+{{end}}
+{{ if eq .Values.greenContainer.state "enabled" }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.container.name }}-green
+    group: green
+  name: {{ .Values.container.name }}-green
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.container.name }}-green
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.container.name }}-green
+        group: green
+    spec:
+      containers:
+      - image: {{ .Values.greenContainer.image }}
+        name: {{ .Values.container.name }}-green
+{{ end}}

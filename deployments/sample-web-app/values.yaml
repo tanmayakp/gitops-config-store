@@ -1,0 +1,21 @@
+replicaCount: 3
+service:
+    type: NodePort
+    port: 5000
+    targetPort: 5000
+container:
+    name: sample-web-app
+blueContainer:
+    image: tanmayakp/sample-web-app:main-a75a46e
+    state: enabled
+greenContainer:
+    image: tanmayakp/sample-web-app:main-v4
+    state: enabled
+    
+autoPromote: false
+activeHost: www.havefish.ml
+inactiveHost: preview.havefish.ml
+gateway: default-gateway
+inactive: green
+
+

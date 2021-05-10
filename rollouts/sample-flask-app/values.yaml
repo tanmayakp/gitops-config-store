@@ -5,7 +5,7 @@ service:
     targetPort: 5000
 container:
     name: sample-flask-app
-    image: tanmayakp/sample-web-app:main-v2
+    image: tanmayakp/sample-web-app:main-v3
 autoPromote: false
 canaryTraffic: 0
 stableTraffic: 100

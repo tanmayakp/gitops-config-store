@@ -20,7 +20,7 @@ spec:
             routes:
             - {{ .Values.routeName }}
       steps:
-      - setWeight: 5
+      - setWeight: 20
       - pause: {}
   template:
     metadata:
